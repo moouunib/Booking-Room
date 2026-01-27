@@ -1,0 +1,26 @@
+.room{
+    border: solid ;
+    border-color: black;
+    border-radius: 15px ;
+    margin: 20px;
+    padding: 20px;
+    
+
+.imgM{
+    border-radius: 10px;
+    height: 350px;
+    width: 400px;
+}
+.desc{
+    position: relative;
+    display: inline;
+}
+.image{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.bigimg{
+    height: 400px;
+    
+}
