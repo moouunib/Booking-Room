@@ -1,35 +1,56 @@
 import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import "../style/rooms.css";
 import Carousel from "react-bootstrap/Carousel";
-
+import "../style/rooms.css";
+import { Link } from "react-router";
 
 const Rooms = ({ rooms }) => {
   const [selectedRoom, setSelectedRoom] = useState(null);
 
   const handleClose = () => setSelectedRoom(null);
-  const handleShow = (room) => setSelectedRoom(room);
+  const handleShow  = (room) => setSelectedRoom(room);
+
+ ;
 
   return (
     <div>
-      <div>
+      <div className="row g-4">
         {rooms.map((room, index) => (
-          <div className="room" key={room._id}>
-            <div class="image">
+          <div className="col-md-4 room" key={room._id}>
+            <div className="card shadow border-0 h-100">
+
+              {/* صورة الغرفة */}
               <img
                 src={`http://localhost:5000${room.imageUrl[0]}`}
                 alt={`room-${index}`}
-                class="imgM"
+                className="card-img-top imgM"
               />
-              <div className="decs">
-                <h3>the status of this room : {room.status}</h3>
-                <br />
-                <h3>description : {room.description}</h3>
-                <Button variant="primary" onClick={() => handleShow(room)}>
-                  View Room
-                </Button>
+
+              <div className="card-body d-flex flex-column">
+                {/* رقم الغرفة */}
+                <h5 className="card-title fw-bold">Room {room.roomNumber}</h5>
+
+                {/* معلومات */}
+                <p className="card-text mb-1">
+                  <strong>Type:</strong> {room.type.name}
+                </p>
+                <p className="card-text mb-1">
+                  <strong>Capacity:</strong> {room.type.capacity} guests
+                </p>
+                
+
+                {/* أزرار */}
+                <div className="d-flex gap-2 mt-auto">
+                  <Link to="/client" state={{ room }}>
+                    <Button variant="primary" size="sm">Book Now</Button>
+                  </Link>
+                  <Button variant="outline-secondary" size="sm" onClick={() => handleShow(room)}>
+                    View Room
+                  </Button>
+                </div>
               </div>
+
             </div>
           </div>
         ))}
@@ -45,31 +66,43 @@ const Rooms = ({ rooms }) => {
       >
         <Modal.Header closeButton>
           <Modal.Title>
-            {selectedRoom && `Room Status: ${selectedRoom.status}`}
+            {selectedRoom && (
+              <span>
+                Room {selectedRoom.roomNumber}
+                
+              </span>
+            )}
           </Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
           {selectedRoom && (
-            <Carousel>
-              {selectedRoom.imageUrl.map((img, index) => (
-                <Carousel.Item key={index}>
-                  <img
-                    className="d-block w-100 bigimg"
-                    src={`http://localhost:5000${img}`}
-                    alt={`room-${index}`}
-                  />
-                  <h5>{selectedRoom.description}</h5>
-                </Carousel.Item>
-              ))}
-            </Carousel>
+            <>
+              <Carousel>
+                {selectedRoom.imageUrl.map((img, index) => (
+                  <Carousel.Item key={index}>
+                    <img
+                      className="d-block w-100 bigimg"
+                      src={`http://localhost:5000${img}`}
+                      alt={`room-${index}`}
+                    />
+                  </Carousel.Item>
+                ))}
+              </Carousel>
+              {selectedRoom.description && (
+                <p className="mt-3 text-muted">
+                  <strong>Description:</strong> {selectedRoom.description}
+                </p>
+              )}
+            </>
           )}
         </Modal.Body>
 
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
+          <Button variant="secondary" onClick={handleClose}>Close</Button>
+          <Link to="/client" state={{ room: selectedRoom }}>
+            <Button variant="primary">Book Now</Button>
+          </Link>
         </Modal.Footer>
       </Modal>
     </div>
