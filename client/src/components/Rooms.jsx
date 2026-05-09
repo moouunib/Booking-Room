@@ -19,10 +19,13 @@ const Rooms = ({ rooms }) => {
         {rooms.map((room, index) => (
           <div className="col-md-4 room" key={room._id}>
             <div className="card shadow border-0 h-100">
-
               {/* صورة الغرفة */}
               <img
-                src={`http://localhost:5000${room.imageUrl[0]}`}
+                src={
+                  room.imageUrl?.length
+                    ? `http://localhost:5000${room.imageUrl[0]}`
+                    : "https://via.placeholder.com/300"
+                }
                 alt={`room-${index}`}
                 className="card-img-top imgM"
               />
@@ -33,24 +36,33 @@ const Rooms = ({ rooms }) => {
 
                 {/* معلومات */}
                 <p className="card-text mb-1">
-                  <strong>Type:</strong> {room.type.name}
+                  <strong>Type:</strong> {room.typeRoom?.name || "N/A"}
                 </p>
                 <p className="card-text mb-1">
-                  <strong>Capacity:</strong> {room.type.capacity} guests
+                  <strong>Capacity:</strong> {room.typeRoom?.capacity || "N/A"}{" "}
+                  guests
                 </p>
-                
+                <p className="card-text mb-1">
+                  <strong>Night Price</strong> {room.typeRoom?.nightPrice || "N/A"}{" "}
+                  DA
+                </p>
 
                 {/* أزرار */}
                 <div className="d-flex gap-2 mt-auto">
                   <Link to="/client" state={{ room }}>
-                    <Button variant="primary" size="sm">Book Now</Button>
+                    <Button variant="primary" size="sm">
+                      Book Now
+                    </Button>
                   </Link>
-                  <Button variant="outline-secondary" size="sm" onClick={() => handleShow(room)}>
+                  <Button
+                    variant="outline-secondary"
+                    size="sm"
+                    onClick={() => handleShow(room)}
+                  >
                     View Room
                   </Button>
                 </div>
               </div>
-
             </div>
           </div>
         ))}
@@ -66,12 +78,7 @@ const Rooms = ({ rooms }) => {
       >
         <Modal.Header closeButton>
           <Modal.Title>
-            {selectedRoom && (
-              <span>
-                Room {selectedRoom.roomNumber}
-                
-              </span>
-            )}
+            {selectedRoom && <span>Room {selectedRoom.roomNumber}</span>}
           </Modal.Title>
         </Modal.Header>
 
@@ -89,9 +96,10 @@ const Rooms = ({ rooms }) => {
                   </Carousel.Item>
                 ))}
               </Carousel>
-              {selectedRoom.description && (
+              {selectedRoom.typeRoom?.description && (
                 <p className="mt-3 text-muted">
-                  <strong>Description:</strong> {selectedRoom.description}
+                  <strong>Description:</strong>{" "}
+                  {selectedRoom.typeRoom.description}
                 </p>
               )}
             </>
@@ -99,7 +107,9 @@ const Rooms = ({ rooms }) => {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>Close</Button>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
           <Link to="/client" state={{ room: selectedRoom }}>
             <Button variant="primary">Book Now</Button>
           </Link>

@@ -1,13 +1,53 @@
 const express = require("express");
 const router = express.Router();
 const Room = require("../models/room");
+const TypeRoom = require("../models/typeRoom");
 
-router.get("/getAllRooms",async(req , res ) =>{
+
+router.get(
+    "/getAllRooms",async(req , res ) =>{
     try{
         const rooms = await Room.find({});
-         res.send(rooms);
+        if(!rooms)
+            return res.status(404).json({message:"not room found"});
+
+        return res.send(rooms);
     }catch(error){
         return res.status(400).json({message : error})
+    }
+});
+//update type of room :
+router.put("/updateRoomType/:id",async(req , res)=>{
+    try {
+      const roomId = req.params.id;
+      
+      const { typeId } = req.body;
+      //find type by id
+      const typeRoom = await TypeRoom.findById(typeId);
+      if (!typeRoom)
+        return res.status(404).json({ message: "this type is not found" });
+      //find room
+      const room = await Room.findById(roomId);
+      if (!room) return res.status(404).json({ message: "room not found" });
+      //update room :
+      room.typeRoom = {
+        typeId: typeRoom._id,
+        name: typeRoom.name,
+        capacity: typeRoom.capacity,
+        description: typeRoom.description,
+      };
+      //save procedre
+      await room.save();
+      // response :
+      return res.status(201).json({
+        message: "the update of of type room is successfully",
+        room,
+      });
+    } catch (error) {
+      return res.status(500).json({
+        message: "server error",
+        error: error.message,
+      });
     }
 })
 router.post("/updateStatus/:id", async (req,res) => {
@@ -50,7 +90,7 @@ router.post("/updateStatus/:id", async (req,res) => {
             message: error.message
         });
     }
-});  
+});
 
 
 

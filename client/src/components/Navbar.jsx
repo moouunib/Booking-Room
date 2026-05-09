@@ -1,15 +1,39 @@
 import { useState, useEffect } from "react";
-import {Link} from "react-router"
+import { Link, useLocation } from "react-router-dom";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
+  const location = useLocation();
+
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 60);
+
     window.addEventListener("scroll", fn);
+
     return () => window.removeEventListener("scroll", fn);
   }, []);
+
+  useEffect(() => {
+    setUser(JSON.parse(localStorage.getItem("user")));
+  }, [location]);
+
+  const getAccountPath = () => {
+    if (!user) return "/login";
+
+    if (
+      user.role === "manager" ||
+      user.role === "operation_staff" ||
+      user.role === "offers_manger"
+    ) {
+      return "/employee";
+    }
+
+    return "/client";
+  };
 
   return (
     <nav
@@ -29,21 +53,22 @@ export default function Navbar() {
         className="container d-flex align-items-center justify-content-between flex-wrap"
         style={{ gap: 10 }}
       >
-        <Link to="/rooms">
-          <a
-            style={{
-              fontFamily: "'Playfair Display',serif",
-              fontSize: "1.7rem",
-              fontWeight: 700,
-              color: "#C9A84C",
-              textDecoration: "none",
-              letterSpacing: 1,
-            }}
-          >
-            Room<span style={{ color: "#fff" }}>Lux</span>
-          </a>
+        {/* Logo */}
+        <Link
+          to="/"
+          style={{
+            fontFamily: "'Playfair Display',serif",
+            fontSize: "1.7rem",
+            fontWeight: 700,
+            color: "#C9A84C",
+            textDecoration: "none",
+            letterSpacing: 1,
+          }}
+        >
+          Room<span style={{ color: "#fff" }}>Lux</span>
         </Link>
 
+        {/* Mobile Menu Button */}
         <button
           onClick={() => setMenuOpen(!menuOpen)}
           className="d-lg-none"
@@ -61,6 +86,7 @@ export default function Navbar() {
           ></i>
         </button>
 
+        {/* Menu */}
         <div
           className={`${menuOpen ? "d-flex" : "d-none"} d-lg-flex`}
           style={{
@@ -70,24 +96,25 @@ export default function Navbar() {
             gap: 4,
           }}
         >
-          <Link to="/">
-            <a href="/" style={linkStyle}>
-              Main
-            </a>
+          <Link to="/" style={linkStyle}>
+            Main
           </Link>
 
-          <a href="/rooms" style={linkStyle}>
+          <Link to="/rooms" style={linkStyle}>
             Rooms
-          </a>
-          <a href="/services" style={linkStyle}>
+          </Link>
+
+          <Link to="/OurServices" style={linkStyle}>
             Our Services
-          </a>
-          <a href="/about" style={linkStyle}>
+          </Link>
+
+          <Link to="/about" style={linkStyle}>
             About Us
-          </a>
-          <a href="/login" style={btnStyle}>
-            Login
-          </a>
+          </Link>
+
+          <Link to={getAccountPath()} style={btnStyle}>
+            {user ? "Account" : "Login"}
+          </Link>
         </div>
       </div>
     </nav>

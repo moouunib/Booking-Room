@@ -29,20 +29,21 @@ const roomSchema = mongoose.Schema(
     roomNumber: {
       type: String,
     },
-    
+
     typeRoom: {
       typeId: {
         type: mongoose.Schema.Types.ObjectId,
-        
+        ref: "typeRooms",
       },
       name: String,
       capacity: String,
-      
+      nightPrice :Number,
+      description: {
+        type: String,
+      },
     },
     currentBookings: [bookingSchema],
-    description: {
-      type: String,
-    },
+
     imageUrl: [],
   },
   { timestamps: true },

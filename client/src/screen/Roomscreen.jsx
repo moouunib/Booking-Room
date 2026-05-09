@@ -29,7 +29,6 @@ const Roomscreen = () => {
 
   return (
     <div className="container py-5">
-
       {/* شريط البحث */}
       <div className="blockSearch">
         <strong>Check In:</strong>
@@ -38,7 +37,7 @@ const Roomscreen = () => {
         <input className="search" type="date" name="" id="" />
       </div>
 
-      <h4 className="fw-bold mb-4">Available Rooms</h4>
+      <h4 className="fw-bold mb-4">All Rooms</h4>
 
       {loading && (
         <div className="text-center my-5">
@@ -47,7 +46,7 @@ const Roomscreen = () => {
         </div>
       )}
 
-      {rooms.length > 1 && <Rooms rooms={rooms} />}
+      {rooms.length ? <Rooms rooms={rooms} /> : <p>No rooms available</p>}
 
       {findError && <p className="text-danger">{String(error)}</p>}
     </div>

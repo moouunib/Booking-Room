@@ -3,19 +3,6 @@ const mongoose = require("mongoose");
 
 const clientSchema = mongoose.Schema(
   {
-    nin: {
-      type: String,
-      unique: true,
-      required: true,
-    },
-    fName: {
-      type: String,
-      required: true,
-    },
-    lName: {
-      type: String,
-      required: true,
-    },
     email: {
       type: String,
       required: true,
@@ -23,15 +10,12 @@ const clientSchema = mongoose.Schema(
     },
     phone: {
       type: String,
-      
     },
-    dateBirth: {
-      type: Date,
-      
-    },
-    placeBirth: {
-      type: String,
-    },
+      nin: {
+        type: String,
+        required: true,
+        unique: true,
+      },
   },
   { timestamps: true },
 );

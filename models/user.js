@@ -7,35 +7,13 @@ const userSchema = mongoose.Schema(
       required: true,
       unique: true,
     },
-    fName: {
-      type: String,
-      required: true,
-    },
-    lName: {
-      type: String,
-      required: true,
-    },
-    dateBirth: {
-      type: Date,
-      required: true,
-    },
-    placeBirth: {
-      type: String,
-      required: true,
-    },
     userName: {
       type: String,
       required: true,
     },
-    email: {
-      type: String,
-      lowercase: true,
-      trim: true,
-      required: true,
-    },
     password: {
       type: String,
-      require: true,
+      required: true,
     },
     role: {
       type: String,
@@ -45,7 +23,7 @@ const userSchema = mongoose.Schema(
     status: {
       type: String,
       enum: ["active", "blocked"],
-      default: ["active"],
+      default: "active",
     },
   },
   { timestamps: true },

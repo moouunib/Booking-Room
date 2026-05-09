@@ -51,11 +51,9 @@ const ClientScreen = () => {
 
   return (
     <div className="container py-5" style={{ maxWidth: 900 }}>
-
       <h3 className="fw-bold mb-4">Guest Information</h3>
 
       <div className="row g-4">
-
         {/* Room info */}
         <div className="col-md-5">
           <div className="card shadow border-0">
@@ -67,8 +65,12 @@ const ClientScreen = () => {
             />
             <div className="card-body">
               <h5 className="fw-bold">Room {room.roomNumber}</h5>
-              <p className="mb-1"><strong>Type:</strong> {room.type?.name}</p>
-              <p className="mb-0"><strong>Capacity:</strong> {room.type?.capacity} guests</p>
+              <p className="mb-1">
+                <strong>Type:</strong> {room.type?.name}
+              </p>
+              <p className="mb-0">
+                <strong>Capacity:</strong> {room.type?.capacity} guests
+              </p>
             </div>
           </div>
         </div>
@@ -76,13 +78,16 @@ const ClientScreen = () => {
         {/* Guest form */}
         <div className="col-md-7">
           <div className="card shadow border-0">
-            <div className="card-header bg-white fw-bold">Enter your information</div>
+            <div className="card-header bg-white fw-bold">
+              Enter your information
+            </div>
             <div className="card-body">
               <form onSubmit={register}>
-
                 <div className="row g-3">
                   <div className="col-12">
-                    <label className="form-label fw-semibold">National ID (NIN) *</label>
+                    <label className="form-label fw-semibold">
+                      National ID (NIN) *
+                    </label>
                     <input
                       type="text"
                       name="nin"
@@ -94,7 +99,9 @@ const ClientScreen = () => {
                   </div>
 
                   <div className="col-md-6">
-                    <label className="form-label fw-semibold">First Name *</label>
+                    <label className="form-label fw-semibold">
+                      First Name *
+                    </label>
                     <input
                       type="text"
                       name="fName"
@@ -106,7 +113,9 @@ const ClientScreen = () => {
                   </div>
 
                   <div className="col-md-6">
-                    <label className="form-label fw-semibold">Last Name *</label>
+                    <label className="form-label fw-semibold">
+                      Last Name *
+                    </label>
                     <input
                       type="text"
                       name="lName"
@@ -130,18 +139,21 @@ const ClientScreen = () => {
                   </div>
 
                   <div className="col-12">
-                    <label className="form-label fw-semibold">Phone</label>
+                    <label className="form-label fw-semibold">Phone*</label>
                     <input
                       type="text"
                       name="phone"
                       className="form-control"
                       placeholder="Phone number"
+                      required
                       onChange={handleChange}
                     />
                   </div>
 
                   <div className="col-md-6">
-                    <label className="form-label fw-semibold">Date of Birth</label>
+                    <label className="form-label fw-semibold">
+                      Date of Birth
+                    </label>
                     <input
                       type="date"
                       name="dateBirth"
@@ -151,7 +163,9 @@ const ClientScreen = () => {
                   </div>
 
                   <div className="col-md-6">
-                    <label className="form-label fw-semibold">Place of Birth</label>
+                    <label className="form-label fw-semibold">
+                      Place of Birth
+                    </label>
                     <input
                       type="text"
                       name="placeBirth"
@@ -170,12 +184,10 @@ const ClientScreen = () => {
                     Cancel
                   </Link>
                 </div>
-
               </form>
             </div>
           </div>
         </div>
-
       </div>
     </div>
   );

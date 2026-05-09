@@ -9,6 +9,10 @@ const reservationSchema = mongoose.Schema(
       required: true,
     },
     client: {
+      nin:{
+        type :String,
+        required:true,
+      },
       fName: {
         type: String,
         required: true,
@@ -53,11 +57,7 @@ const reservationSchema = mongoose.Schema(
       type: Date,
       required: true,
     },
-    totalPrice: {
-      type: Number,
-      required: true,
-    },
-    
+    totalPrice:{type:Number, required:true},
     status: {
       type: String,
       enum: ["pending", "confirmed", "cancelled"],

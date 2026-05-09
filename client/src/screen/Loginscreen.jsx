@@ -1,51 +1,54 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import "../style/login.css";
-import axios from 'axios';
-import { useNavigate } from 'react-router';
+import axios from "axios";
+import { useNavigate } from "react-router";
 const Loginscreen = () => {
   const navigate = useNavigate();
-  const [form , setForm]=useState({
-    userName:"",
-    email:"",
-    password:""
-  })
+  const [form, setForm] = useState({
+    userName: "",
+    password: "",
+  });
   const [message, setMessage] = useState("");
-  const handleChange = (e)=>{
-    const {name , value}= e.target;
+  const handleChange = (e) => {
+    const { name, value } = e.target;
     setForm({
       ...form,
-      [name] :value,
-    })
-  }
-  const login =async (e)=>{
-
+      [name]: value,
+    });
+  };
+  const login = async (e) => {
     e.preventDefault();
-    
+
     const finalData = {
-      userName:form.userName,
-      email:form.email,
-      password:form.password
-    }
+      userName: form.userName,
+      password: form.password,
+    };
     try {
-      const { data } = await axios.post("http://localhost:5000/auth/login",finalData);
+      const { data } = await axios.post(
+        "http://localhost:5000/auth/login",
+        finalData,
+      );
+      localStorage.setItem("token", JSON.stringify(data.token));
+      localStorage.setItem("user", JSON.stringify(data.user));
       console.log(finalData);
-      
+
       setMessage(data.message);
       console.log(message);
       alert(data.message);
-      navigate("/employee" , {state:{user:data.user}} );
-  } catch ( {error  } ) {
-      console.log("An error occurred during login" + error);
-     
-      alert("An error occurred during login");
-      
+      navigate("/employee", { state: { user: data.user } });
+    } catch (error) {
+      console.error("Login error:", error);
+      // محاولة استخراج الرسالة من رد الخطأ إذا كان موجوداً
+      const errorMessage =
+        error.response?.data?.message || "An error occurred during login";
+      alert(errorMessage);
     }
-  }
+  };
   return (
     <div className="screen-login">
       <div className="box-form">
         <form onSubmit={login} method="post">
-          <h1 className="title">Login</h1>
+          <h1 className="title">Employee Login</h1>
           <input
             type="text"
             value={form.userName}
@@ -53,14 +56,6 @@ const Loginscreen = () => {
             name="userName"
             placeholder="user name"
             id=""
-          />
-          <input
-            type="email"
-            value={form.email}
-            onChange={handleChange}
-            placeholder="email"
-            name="email"
-            id="email"
           />
 
           <input
@@ -80,6 +75,6 @@ const Loginscreen = () => {
       </div>
     </div>
   );
-}
+};
 
-export default Loginscreen
+export default Loginscreen;

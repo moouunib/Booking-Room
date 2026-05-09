@@ -1,29 +1,28 @@
-
-import React from 'react'
-import { Link, useLocation , useNavigate } from "react-router-dom";
-import "../style/booking.css"
-import { useState } from 'react';
-import axios from 'axios';
+import React from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import "../style/booking.css";
+import { useState } from "react";
+import axios from "axios";
 
 const Reservation = () => {
   const navigate = useNavigate();
-  const {state}= useLocation();
+  const { state } = useLocation();
   const [form, setForm] = useState({
-    checkIn:"",
-    checkOut:"",
+    checkIn: "",
+    checkOut: "",
   });
   const room = state?.room;
   const client = state?.client;
-  
-  const roomId = room?._id
-  const handleChange = (e)=>{
-    const {name , value } = e.target;
+
+  const roomId = room?._id;
+  const handleChange = (e) => {
+    const { name, value } = e.target;
     setForm({
       ...form,
       [name]: value,
     });
-  }
-  const reservation = async(e)=>{
+  };
+  const reservation = async (e) => {
     e.preventDefault();
     const finalData = {
       nin: client.nin,
@@ -37,34 +36,42 @@ const Reservation = () => {
       checkIn: form.checkIn,
       checkOut: form.checkOut,
     };
-    
+
     try {
-        const  {data}  = await axios.post(
-          "http://localhost:5000/reservation",
-          finalData,
-        );
+      const { data } = await axios.post(
+        "http://localhost:5000/reservation",
+        finalData,
+      );
 
-        alert(data.message);
-        navigate("/booking", { state: { room,  reservation:data.data , nights:data.nights } });
-
+      alert(data.message);
+      navigate("/booking", {
+        state: {
+          room,
+          reservation: data.newReservation,
+          totalPrice: data.totalPrice,
+          nights: data.nights,
+        },
+      });
     } catch (error) {
-        console.log(error.response.data);
-        alert(error.response.data.message || "Reservation failed");
+      console.log(error.response.data);
+      alert(error.response.data.message || "Reservation failed");
     }
-  }
+  };
   if (!room) {
     return (
       <div className="container py-5 text-center">
         <p className="text-muted">No room selected.</p>
-        <Link to="/rooms" className="btn btn-primary mt-2">Back to Rooms</Link>
+        <Link to="/rooms" className="btn btn-primary mt-2">
+          Back to Rooms
+        </Link>
       </div>
     );
   }
-  
+
   return (
     <div className="container py-5" style={{ maxWidth: 900 }}>
       <h3 className="fw-bold mb-4">Complete Reservation</h3>
-      
+
       <div className="row g-4">
         {/* Room info */}
         <div className="col-md-5">
@@ -77,8 +84,12 @@ const Reservation = () => {
             />
             <div className="card-body">
               <h5 className="fw-bold">Room {room.roomNumber}</h5>
-              <p className="mb-1"><strong>Type:</strong> {room.type?.name}</p>
-              <p className="mb-0"><strong>Capacity:</strong> {room.type?.capacity} guests</p>
+              <p className="mb-1">
+                <strong>Type:</strong> {room.type?.name}
+              </p>
+              <p className="mb-0">
+                <strong>Capacity:</strong> {room.type?.capacity} guests
+              </p>
             </div>
           </div>
         </div>
@@ -101,7 +112,9 @@ const Reservation = () => {
                     />
                   </div>
                   <div className="col-md-6">
-                    <label className="form-label fw-semibold">Check Out *</label>
+                    <label className="form-label fw-semibold">
+                      Check Out *
+                    </label>
                     <input
                       required
                       type="date"
@@ -116,7 +129,11 @@ const Reservation = () => {
                   <button type="submit" className="btn btn-primary">
                     Confirm Reservation
                   </button>
-                  <Link state={{ room }} to="/client" className="btn btn-secondary">
+                  <Link
+                    state={{ room }}
+                    to="/client"
+                    className="btn btn-secondary"
+                  >
                     Cancel
                   </Link>
                 </div>
@@ -127,6 +144,6 @@ const Reservation = () => {
       </div>
     </div>
   );
-}
+};
 
-export default Reservation
+export default Reservation;

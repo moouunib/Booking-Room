@@ -95,35 +95,48 @@ export default function Main() {
   const slide = slides[active];
 
   return (
-    <section id="hero" className="position-relative w-100 overflow-hidden" style={{ height: "100vh", minHeight: "600px" }}>
+    <section
+      id="hero"
+      className="position-relative w-100 overflow-hidden"
+      style={{ height: "100vh", minHeight: "600px" }}
+    >
       <div
         className="position-absolute w-100 h-100"
         style={{
           backgroundImage: `url('${slide.bg}')`,
           backgroundSize: "cover",
           backgroundPosition: "center",
-          transition: "background-image 0.8s ease-in-out"
+          transition: "background-image 0.8s ease-in-out",
         }}
       >
         {/* Overlay */}
         <div
           className="position-absolute top-0 start-0 w-100 h-100"
           style={{
-            background: "linear-gradient(135deg, rgba(11,31,58,0.85), rgba(11,31,58,0.45))"
+            background:
+              "linear-gradient(135deg, rgba(11,31,58,0.85), rgba(11,31,58,0.45))",
           }}
         />
 
         {/* Content */}
-        <div className="container position-relative h-100 d-flex flex-column justify-content-center text-white" style={{ zIndex: 2 }}>
+        <div
+          className="container position-relative h-100 d-flex flex-column justify-content-center text-white"
+          style={{ zIndex: 2 }}
+        >
           <div className="row">
             <div className="col-lg-8 col-xl-7">
-              <span className="badge rounded-pill mb-3 px-3 py-2 text-uppercase letter-spacing-2" 
-                    style={{ background: "#C9A84C", fontSize: "0.8rem" }}>
+              <span
+                className="badge rounded-pill mb-3 px-3 py-2 text-uppercase letter-spacing-2"
+                style={{ background: "#C9A84C", fontSize: "0.8rem" }}
+              >
                 <i className={`bi ${slide.badge} me-2`}></i>
                 {slide.badgeText}
               </span>
 
-              <h1 className="display-3 fw-bold mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>
+              <h1
+                className="display-3 fw-bold mb-4"
+                style={{ fontFamily: "'Playfair Display', serif" }}
+              >
                 {slide.title}
               </h1>
 
@@ -132,19 +145,28 @@ export default function Main() {
               </p>
 
               <div className="d-flex flex-wrap gap-3">
-                <a href="/booking" className="btn btn-lg fw-semibold px-4 rounded-pill" style={{ background: "#C9A84C", color: "#fff", border: "2px solid #C9A84C" }}>
-                  <i className="bi bi-calendar-check me-2"></i>Book Now
+                <a
+                  href="/rooms"
+                  className="btn btn-lg fw-semibold px-4 rounded-pill"
+                  style={{
+                    background: "#C9A84C",
+                    color: "#fff",
+                    border: "2px solid #C9A84C",
+                  }}
+                >
+                  <i className="bi bi-calendar-check me-2"></i>View Rooms
                 </a>
-                <a href="/rooms" className="btn btn-lg fw-semibold px-4 rounded-pill btn-outline-light">
-                  <i className="bi bi-door-open me-2"></i>View Rooms
-                </a>
+                
               </div>
             </div>
           </div>
         </div>
 
         {/* Indicators */}
-        <div className="position-absolute bottom-0 start-50 translate-middle-x mb-4 d-flex gap-2" style={{ zIndex: 3 }}>
+        <div
+          className="position-absolute bottom-0 start-50 translate-middle-x mb-4 d-flex gap-2"
+          style={{ zIndex: 3 }}
+        >
           {slides.map((_, i) => (
             <button
               key={i}
@@ -155,7 +177,7 @@ export default function Main() {
                 height: "12px",
                 background: i === active ? "#C9A84C" : "rgba(255,255,255,0.5)",
                 transform: i === active ? "scale(1.2)" : "scale(1)",
-                transition: "all 0.3s ease"
+                transition: "all 0.3s ease",
               }}
               aria-label={`Go to slide ${i + 1}`}
             />
@@ -164,16 +186,30 @@ export default function Main() {
 
         {/* Navigation Arrows */}
         <button
-          onClick={() => setActive((p) => (p - 1 + slides.length) % slides.length)}
+          onClick={() =>
+            setActive((p) => (p - 1 + slides.length) % slides.length)
+          }
           className="position-absolute top-50 start-0 translate-middle-y ms-4 rounded-circle border-0 d-flex align-items-center justify-content-center"
-          style={{ width: "50px", height: "50px", background: "rgba(201,168,76,0.85)", color: "#fff", zIndex: 3 }}
+          style={{
+            width: "50px",
+            height: "50px",
+            background: "rgba(201,168,76,0.85)",
+            color: "#fff",
+            zIndex: 3,
+          }}
         >
           <i className="bi bi-chevron-left fs-4"></i>
         </button>
         <button
           onClick={() => setActive((p) => (p + 1) % slides.length)}
           className="position-absolute top-50 end-0 translate-middle-y me-4 rounded-circle border-0 d-flex align-items-center justify-content-center"
-          style={{ width: "50px", height: "50px", background: "rgba(201,168,76,0.85)", color: "#fff", zIndex: 3 }}
+          style={{
+            width: "50px",
+            height: "50px",
+            background: "rgba(201,168,76,0.85)",
+            color: "#fff",
+            zIndex: 3,
+          }}
         >
           <i className="bi bi-chevron-right fs-4"></i>
         </button>
